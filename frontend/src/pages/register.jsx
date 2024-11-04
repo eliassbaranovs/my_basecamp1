@@ -1,11 +1,14 @@
 import React from 'react';
 import Button from '../components/button';
 import Input from '../components/input';
+import Footer from '../components/footer';
+import Navbar from '../components/navbar';
 
 const Register = () => {
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
+    <>
+      <Navbar />
+      <div className="bg-white dark:bg-gray-900 flex items-center justify-center min-h-screen">
           <form className="w-full max-w-md">
               <div className="flex justify-center mx-auto">
                   <img className="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt=""/>
@@ -33,18 +36,18 @@ const Register = () => {
                 <Input inputPlaceholder="Confirm Password"/>
               </div>
 
-              <div className="mt-6">
+              <div className="relative flex justify-center mt-6">
                 <Button buttonText="Sign Up"/>
-
-                  <div className="mt-6 text-center ">
+              </div>
+              <div className="mt-6 text-center ">
                       <a href="#" className="text-sm text-blue-500 hover:underline dark:text-blue-400">
                           Already have an account?
                       </a>
                   </div>
-              </div>
           </form>
       </div>
-  </section>
+      <Footer />
+    </>
   );
 };
 
