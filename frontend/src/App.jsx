@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import Button from './components/button'
+import Footer from './components/footer'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,7 +13,7 @@ function App() {
           count is {count}
         </button>
         <h1 className="bg-red-400">TEST</h1>
-        <Button />
+        <Footer />
       </div>
     </>
   )
