@@ -10,7 +10,7 @@ exports.createProject = async (req, res) => {
       owner: req.session.userId, // Associate the project with the logged-in user
     });
     await newProject.save();
-    res.status(201).json({ message: "Project created successfully" });
+    res.status(201).json(newProject);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Failed to create project" });
@@ -63,19 +63,23 @@ exports.deleteProject = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ error: "Project not found" });
     }
 
-    // Check if the user is the owner of the project
-    if (project.owner.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized" });
+    if (
+      project.owner.toString() !== req.session.userId &&
+      req.session.role !== "admin"
+    ) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this project" });
     }
 
-    await Project.findByIdAndDelete(req.params.id); 
+    await Project.findByIdAndDelete(req.params.id);
 
     res.status(200).json({ message: "Project deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Failed to delete project" });
   }
 };

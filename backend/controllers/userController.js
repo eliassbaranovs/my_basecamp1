@@ -1,4 +1,4 @@
-const User = require("../models/User"); // Import the User model
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 // Register a new user
@@ -70,54 +70,6 @@ exports.logoutUser = (req, res) => {
   });
 };
 
-// Set a user as admin
-exports.setAdmin = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    if (user.role === "admin") {
-      return res.status(400).json({ error: "User is already an admin" });
-    }
-
-    user.role = "admin";
-    await user.save();
-
-    res.status(200).json({ message: "User promoted to admin" });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Server error, please try again later" });
-  }
-};
-
-// Remove admin role from a user
-exports.removeAdmin = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    if (user.role !== "admin") {
-      return res.status(400).json({ error: "User is not an admin" });
-    }
-
-    user.role = "user";
-    await user.save();
-
-    res.status(200).json({ message: "Admin role removed from user" });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: "Server error, please try again later" });
-  }
-};
-
 // Middleware to check if the user is authenticated (logged in)
 exports.isAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
@@ -135,25 +87,87 @@ exports.isAdmin = async (req, res, next) => {
   return res.status(403).json({ error: "Admin privileges required" });
 };
 
+// Promote a user to admin
+exports.setAdmin = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    user.role = "admin";
+    await user.save();
+    res.status(200).json({ message: "User promoted to admin" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server error, please try again later" });
+  }
+};
+
+// Remove admin privileges from a user
+exports.removeAdmin = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    user.role = "user";
+    await user.save();
+    res.status(200).json({ message: "Admin privileges removed" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server error, please try again later" });
+  }
+};
+
 // Delete a user (only admins or the user themselves can delete an account)
 exports.deleteUser = async (req, res) => {
-    try {
-        const userId = req.params.id;
-        const user = await User.findById(userId);
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
 
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        // Only allow deletion if the logged-in user is an admin or is deleting their own account
-        if (req.session.userId === user._id.toString() || req.session.role === 'admin') {
-            await user.remove();  // Remove the user from the database
-            return res.status(200).json({ message: 'User deleted successfully' });
-        } else {
-            return res.status(403).json({ error: 'You are not authorized to delete this account' });
-        }
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ error: 'Server error, please try again later' });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
+
+    // Only allow deletion if the logged-in user is an admin or is deleting their own account
+    if (
+      req.session.userId === user._id.toString() ||
+      req.session.role === "admin"
+    ) {
+      await User.findByIdAndDelete(userId); // Remove the user from the database
+      return res.status(200).json({ message: "User deleted successfully" });
+    } else {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this account" });
+    }
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server error, please try again later" });
+  }
+};
+
+// Get current user details
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server error, please try again later" });
+  }
+};
+
+// Get all users (admin only)
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server error, please try again later" });
+  }
 };

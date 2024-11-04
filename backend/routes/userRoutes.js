@@ -12,6 +12,12 @@ router.post("/login", userController.loginUser);
 // User logout route
 router.get("/logout", userController.logoutUser);
 
+// Get current user details
+router.get("/me", isAuthenticated, userController.getCurrentUser);
+
+// Get all users (admin only)
+router.get("/all", isAuthenticated, isAdmin, userController.getAllUsers);
+
 // Promote a user to admin (only admins can perform this action)
 router.post("/admin/:id", isAuthenticated, isAdmin, userController.setAdmin);
 

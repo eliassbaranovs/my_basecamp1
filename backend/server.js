@@ -18,7 +18,6 @@ app.use(
   })
 );
 
-
 app.use(express.json());
 
 // Connect to MongoDB
