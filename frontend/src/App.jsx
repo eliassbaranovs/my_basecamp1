@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import Login from './pages/login'
+import Register from './pages/register'
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           count is {count}
         </button>
         <h1 className="bg-red-400">TEST</h1>
-        <Login />
+        <Register />
       </div>
     </>
   )
