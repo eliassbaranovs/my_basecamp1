@@ -31,10 +31,11 @@ const Login = () => {
         }
       }
 
-      if (contentType && contentType.includes('application/json')) {
-        const data = JSON.parse(responseText);
-        console.log('Login successful:', data);
-      } else {
+    if (contentType && contentType.includes('application/json')) {
+      const data = JSON.parse(responseText);
+      console.log('Login successful:', data);
+      window.location.href = '/ProjectView'; // Redirect to Project view
+    } else {
         console.error('Unexpected response format:', responseText); // Log the response text
         throw new Error('Unexpected response format');
       }
