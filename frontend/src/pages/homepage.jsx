@@ -1,7 +1,7 @@
 import React from 'react';
-import Footer from '../components/footer';
-import Navbar from '../components/navbar';
-import Button from '../components/button';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import Button from '../components/Button';
 
 const handleButtonClick = () => {
   window.location.href="http://localhost:5173/api/users/login/";
