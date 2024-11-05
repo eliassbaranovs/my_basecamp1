@@ -57,7 +57,7 @@ const Login = () => {
           <div className="flex justify-center mx-auto">
             <img
               className="w-auto h-7 sm:h-8"
-              src="https://merakiui.com/images/logo.svg"
+              src="src/assets/logo_transparent.png"
               alt="Logo"
             />
           </div>

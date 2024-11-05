@@ -8,7 +8,7 @@ const Navbar = () => {
             <div className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
                 <div className="flex items-center justify-between">
                     <a href="#">
-                        <img className="w-auto h-6 sm:h-7" src="https://merakiui.com/images/full-logo.svg" alt="Logo" />
+                        <img className="w-auto h-6 sm:h-7" src="src/assets/logo_transparent.png" alt="Logo" />
                     </a>
 
                     {/* Mobile menu button */}

@@ -42,7 +42,7 @@ const Register = () => {
       <div className="bg-white dark:bg-gray-900 flex items-center justify-center min-h-screen">
           <form className="w-full max-w-md" onSubmit={handleSubmit}>
               <div className="flex justify-center mx-auto">
-                  <img className="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt=""/>
+                  <img className="w-auto h-7 sm:h-8" src="src/assets/logo_transparent.png" alt=""/>
               </div>
               
               <div className="flex items-center justify-center mt-6">
