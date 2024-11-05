@@ -18,17 +18,30 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', 
+        credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
 
+      const contentType = response.headers.get('Content-Type');
+      const responseText = await response.text(); // Get the response text
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = JSON.parse(responseText);
+          throw new Error(errorData.message || 'Login failed');
+        } else {
+          console.error('Unexpected response format:', responseText); // Log the response text
+          throw new Error('Unexpected response format');
+        }
       }
 
-      const data = await response.json();
-      console.log('Login successful:', data);
+      if (contentType && contentType.includes('application/json')) {
+        const data = JSON.parse(responseText);
+        console.log('Login successful:', data);
+      } else {
+        console.error('Unexpected response format:', responseText); // Log the response text
+        throw new Error('Unexpected response format');
+      }
 
     } catch (err) {
       setError(err.message);
