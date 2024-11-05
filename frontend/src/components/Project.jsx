@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Project = () => {
+const Project = ({name, description}) => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -17,18 +17,14 @@ const Project = () => {
     fetchProjects();
   }, []);
 
-  return (
-    <div>
-      <h1>Project List</h1>
-      <ul>
-        {projects.map(project => (
-          <li key={project._id}>
-            <h2>{project.name}</h2>
-            <p>{project.description}</p>
+  return (  
+          <li key={name}>
+            <h2>{name}</h2>
+            <p>{description}</p>
           </li>
-        ))}
-      </ul>
-    </div>
+         
+    
+  
   );
 };
 
