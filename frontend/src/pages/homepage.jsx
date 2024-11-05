@@ -3,6 +3,10 @@ import Footer from '../components/footer';
 import Navbar from '../components/navbar';
 import Button from '../components/button';
 
+const handleButtonClick = () => {
+  window.location.href="http://localhost:5173/api/users/login/";
+};
+
 const Homepage = () => {
   return (
     <>
@@ -16,7 +20,7 @@ const Homepage = () => {
           <div className="flex items-center justify-center w-full h-full bg-gray-900/40">
               <div className="text-center">
                   <h1 className="text-3xl font-semibold text-white lg:text-4xl mb-8">Build your new <span className="text-blue-400">BEIJZKAMP</span> Project</h1>
-                  <Button buttonText="I FEEL LUCKY!" /> 
+                  <Button buttonText="I FEEL LUCKY!" onClick={handleButtonClick} />
               </div>
           </div>
       </div>
