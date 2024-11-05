@@ -45,8 +45,8 @@ app.use(
 );
 
 const loginLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour window
-  max: 5, // Limit each IP to 5 login requests per `windowMs`
+  windowMs: 60 * 60 * 1000000, // 1 hour window
+  max: 50000, // Limit each IP to 5 login requests per `windowMs`
   message:
     "Too many login attempts from this IP, please try again after an hour",
 });
