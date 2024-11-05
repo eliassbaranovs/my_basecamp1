@@ -9,8 +9,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/ProjectView" element={<ProjectView />} />
-        <Route path="/AdminView" element={<AdminView />} />
+        <Route path="/projectview" element={<ProjectView />} />
+        <Route path="/adminview" element={<AdminView />} />
       </Routes>
     </Router>
   );
