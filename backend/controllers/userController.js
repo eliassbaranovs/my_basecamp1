@@ -73,8 +73,10 @@ exports.logoutUser = (req, res) => {
 // Middleware to check if the user is authenticated (logged in)
 exports.isAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
+    console.log("User is authenticated:", req.session.userId);
     return next(); // Proceed if user is logged in
   }
+  console.log("User is not authenticated");
   return res.status(401).json({ error: "You must be logged in" });
 };
 

@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import Project from "../components/Project";
+import AddProject from "../components/AddProject";
+import DeleteProject from "../components/DeleteProject";
+import EditProject from "../components/EditProject";
 
 const ProjectView = () => {
   const [projects, setProjects] = useState([]);
@@ -26,13 +29,20 @@ const ProjectView = () => {
   return (
     <div>
       <h1>Projects</h1>
+      <div className="flex gap-20">
+        <AddProject />
+      </div>
       <ul>
         {projects.map((project) => (
-          <Project
-            key={project._id}
-            name={project.name}
-            description={project.description}
-          />
+          <li key={project._id}>
+            <Project name={project.name} description={project.description} />
+            <DeleteProject />
+            <EditProject
+              projectId={project._id}
+              initialName={project.name}
+              initialDescription={project.description}
+            />
+          </li>
         ))}
       </ul>
     </div>

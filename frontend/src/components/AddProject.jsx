@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
 const AddProject = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleCreate = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/projects', {
-        name,
-        description,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/projects",
+        {
+          name,
+          description,
+        },
+        {
+          withCredentials: true, // Include credentials (cookies) in the request
+        }
+      );
       if (response.status === 201) {
-        alert('Project created successfully');
-        setName('');
-        setDescription('');
+        alert("Project created successfully");
+        setName("");
+        setDescription("");
       }
     } catch (error) {
-      console.error('Failed to create project:', error);
-      alert('Failed to create project');
+      console.error("Failed to create project:", error);
+      alert("Failed to create project");
     }
   };
 
   return (
     <div>
       <h2>Add Project</h2>
-      <form onSubmit={(e) => { e.preventDefault(); handleCreate(); }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleCreate();
+        }}
+      >
         <div>
           <label>
             Name:
@@ -47,7 +58,9 @@ const AddProject = () => {
             />
           </label>
         </div>
-        <button type="submit" className="bg-gray-700 " >Create Project</button>
+        <button type="submit" className="bg-gray-700 ">
+          Create Project
+        </button>
       </form>
     </div>
   );
