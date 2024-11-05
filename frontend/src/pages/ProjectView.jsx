@@ -36,7 +36,7 @@ const ProjectView = () => {
         {projects.map((project) => (
           <li key={project._id}>
             <Project name={project.name} description={project.description} />
-            <DeleteProject />
+            <DeleteProject projectId={project._id} />
             <EditProject
               projectId={project._id}
               initialName={project.name}
