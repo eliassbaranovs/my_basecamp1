@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Button from '../components/button';
-import Input from '../components/input';
-import Footer from '../components/footer';
-import Navbar from '../components/navbar';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
 const CreateProject = () => {
   const [projectName, setProjectName] = useState('');
