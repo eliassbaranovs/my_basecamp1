@@ -9,10 +9,16 @@ function App() {
   return (
     <Router>
       <Routes>
+<<<<<<< HEAD
         <Route path="/" element={<Home />} />
         <Route path="/ProjectView" element={<ProjectView />} />
         <Route path="/AdminView" element={<AdminView />} />
         <Route path="/login" element={<Login />} />
+=======
+        <Route path="/" element={<Homepage />} />
+        <Route path="/projectview" element={<ProjectView />} />
+        <Route path="/adminview" element={<AdminView />} />
+>>>>>>> 9576ab37837a4e77cb5ad3ca138feacef0592327
       </Routes>
     </Router>
   );
