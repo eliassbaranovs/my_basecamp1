@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+/* eslint-disable react/prop-types */
+import  { useState } from "react";
+import axios from "axios";
 
 const EditProject = ({ projectId, initialName, initialDescription }) => {
   const [name, setName] = useState(initialName);
@@ -7,23 +8,34 @@ const EditProject = ({ projectId, initialName, initialDescription }) => {
 
   const handleEdit = async () => {
     try {
-      const response = await axios.put(`/api/projects/${projectId}`, {
-        name,
-        description,
-      });
+      const response = await axios.put(
+        `http://localhost:5000/api/projects/${projectId}`,
+        {
+          name,
+          description,
+        },
+        {
+          withCredentials: true, // Include credentials (cookies) in the request
+        }
+      );
       if (response.status === 200) {
-        alert('Project updated successfully');
+        alert("Project updated successfully");
       }
     } catch (error) {
-      console.error('Failed to update project:', error);
-      alert('Failed to update project');
+      console.error("Failed to update project:", error);
+      alert("Failed to update project");
     }
   };
 
   return (
     <div>
       <h2>Edit Project</h2>
-      <form onSubmit={(e) => { e.preventDefault(); handleEdit(); }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleEdit();
+        }}
+      >
         <div>
           <label>
             Name:
@@ -45,7 +57,9 @@ const EditProject = ({ projectId, initialName, initialDescription }) => {
             />
           </label>
         </div>
-        <button type="submit" className="bg-red-700 " >Save Changes</button>
+        <button type="submit" className="bg-red-700 ">
+          Save Changes
+        </button>
       </form>
     </div>
   );
