@@ -1,41 +1,89 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Button from '../components/button';
+import Input from '../components/input';
+import Footer from '../components/footer';
+import Navbar from '../components/navbar';
 
-const EditProject = () => {
+const EditProject = ({ projectId }) => {
+  const [projectName, setProjectName] = useState('');
+  const [description, setDescription] = useState('');
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/projects/${projectId}`);
+        if (!response.ok) throw new Error('Failed to fetch project details');
+        
+        const data = await response.json();
+        setProjectName(data.projectName);
+        setDescription(data.description);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchProjectDetails();
+  }, [projectId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/projects/${projectId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ projectName, description }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to save project');
+      }
+
+      const data = await response.json();
+      console.log('Project updated successfully:', data);
+
+    } catch (err) {
+      setError(err.message);
+      console.error('Error updating project:', err);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-4">Edit Project</h1>
-      <form className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="projectName">
-            Project Name
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="projectName"
-            type="text"
-            placeholder="Enter project name"
-          />
+    <>
+      <Navbar />
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
+          <h1 className="text-4xl font-bold mb-6 text-center">Edit Project</h1>
+          {error && <p className="text-center text-red-500">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <Input
+                inputPlaceholder="Project Name"
+                inputType="text"
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <Input
+                inputPlaceholder="Description"
+                inputType="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center justify-center mt-4">
+              <Button buttonText="Save" />
+            </div>
+          </form>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="description"
-            placeholder="Enter project description"
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            Save
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 };
 
