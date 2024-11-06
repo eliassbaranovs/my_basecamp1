@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import  { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const EditProject = ({ projectId, initialName, initialDescription }) => {
@@ -28,36 +28,39 @@ const EditProject = ({ projectId, initialName, initialDescription }) => {
   };
 
   return (
-    <div>
-      <h2>Edit Project</h2>
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4">Edit Project</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleEdit();
         }}
       >
-        <div>
-          <label>
+        <div className="mb-4">
+          <label className="block text-gray-700">
             Name:
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-green-700 "
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
             />
           </label>
         </div>
-        <div>
-          <label>
+        <div className="mb-4">
+          <label className="block text-gray-700">
             Description:
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="bg-orange-700 "
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md"
             />
           </label>
         </div>
-        <button type="submit" className="bg-red-700 ">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+        >
           Save Changes
         </button>
       </form>

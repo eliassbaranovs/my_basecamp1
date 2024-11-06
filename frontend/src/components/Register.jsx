@@ -46,7 +46,7 @@ const Register = () => {
         <div className="flex justify-center mx-auto">
           <img
             className="w-auto h-7 sm:h-8"
-            src="src/assets/logo_transparent.png"
+            src="/src/assets/logo_transparent.png"
             alt=""
           />
         </div>
