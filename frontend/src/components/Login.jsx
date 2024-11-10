@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "./Navbar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -47,7 +48,8 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen w-full bg-white dark:bg-gray-800">
+      <Navbar />
+      <div className="flex items-center justify-center min-h-screen w-full bg-white dark:bg-gray-900">
         <div className="w-full max-w-md px-6 py-4">
           <div className="flex justify-center mx-auto">
             <img

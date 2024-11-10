@@ -2,17 +2,12 @@
 
 const Project = ({ name, description }) => {
   return (
-    <>
-      <li
-        key={name}
-        className="p-4 border-b border-gray-200"
-      >
-        <h2 className="text-xl font-bold text-gray-800">
-          Project name: {name}
-        </h2>
-        <p className="text-gray-600">Description: {description}</p>
-      </li>
-    </>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        Project name: {name}
+      </h2>
+      <p className="text-gray-600">Description: {description}</p>
+    </div>
   );
 };
 

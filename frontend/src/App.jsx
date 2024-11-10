@@ -30,6 +30,10 @@ function App() {
           path="/register"
           element={<Register />}
         />
+        <Route
+          path="*"
+          element={<Home />}
+        />
       </Routes>
     </Router>
   );

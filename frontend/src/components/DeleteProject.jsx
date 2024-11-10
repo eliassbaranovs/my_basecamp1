@@ -20,7 +20,7 @@ const DeleteProject = ({ projectId }) => {
 
   return (
     <button
-      className="px-4 py-2 bg-red-500 text-white rounded-md"
+      className="px-4 py-2 bg-red-500 text-white rounded-md my-2"
       onClick={handleDelete}
     >
       Delete Project
