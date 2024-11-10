@@ -1,7 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/users/me", {
+          withCredentials: true,
+        });
+        setIsAuthenticated(true);
+        setIsAdmin(response.data.role === "admin");
+      } catch (error) {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:5000/api/users/logout", {
+        withCredentials: true,
+      });
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <nav className="relative bg-white shadow dark:bg-gray-800">
@@ -71,24 +103,45 @@ const Navbar = () => {
             >
               Home
             </a>
-            <a
-              className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
-              href="/ProjectView"
-            >
-              Projects
-            </a>
-            <a
-              className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
-              href="/login"
-            >
-              Login
-            </a>
-            <a
-              className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
-              href="/register"
-            >
-              Register
-            </a>
+            {isAuthenticated && (
+              <a
+                className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                href="/ProjectView"
+              >
+                Projects
+              </a>
+            )}
+            {isAdmin && (
+              <a
+                className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                href="/AdminView"
+              >
+                Admin
+              </a>
+            )}
+            {!isAuthenticated ? (
+              <>
+                <a
+                  className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                  href="/login"
+                >
+                  Login
+                </a>
+                <a
+                  className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+                  href="/register"
+                >
+                  Register
+                </a>
+              </>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="my-2 text-gray-700 transition-colors duration-300 transform dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0"
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           <div className="flex justify-center md:block">
