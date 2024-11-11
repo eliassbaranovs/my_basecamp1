@@ -8,22 +8,22 @@ import Navbar from "../components/Navbar";
 const ProjectView = () => {
   const [projects, setProjects] = useState([]);
 
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/projects", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to fetch projects");
+
+      const data = await response.json();
+      setProjects(data);
+    } catch (err) {
+      console.error("Error fetching projects:", err);
+    }
+  };
+
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/projects", {
-          method: "GET",
-          credentials: "include",
-        });
-        if (!response.ok) throw new Error("Failed to fetch projects");
-
-        const data = await response.json();
-        setProjects(data);
-      } catch (err) {
-        console.error("Error fetching projects:", err);
-      }
-    };
-
     fetchProjects();
   }, []);
 
@@ -34,7 +34,7 @@ const ProjectView = () => {
         <div className="container mx-auto py-8">
           <h1 className="text-3xl font-bold mb-4 text-white">Projects</h1>
           <div className="bg-blue-100 p-4 rounded-lg shadow-md mb-4">
-            <AddProject />
+            <AddProject onProjectAdded={fetchProjects} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {projects.map((project) => (
@@ -46,11 +46,15 @@ const ProjectView = () => {
                   name={project.name}
                   description={project.description}
                 />
-                <DeleteProject projectId={project._id} />
+                <DeleteProject
+                  projectId={project._id}
+                  onProjectDeleted={fetchProjects}
+                />
                 <EditProject
                   projectId={project._id}
                   initialName={project.name}
                   initialDescription={project.description}
+                  onProjectEdited={fetchProjects}
                 />
               </div>
             ))}

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DeleteProject = ({ projectId }) => {
+const DeleteProject = ({ projectId, onProjectDeleted }) => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
@@ -11,6 +11,7 @@ const DeleteProject = ({ projectId }) => {
       );
       if (response.status === 200) {
         alert("Project deleted successfully");
+        onProjectDeleted(); // Call the refresh callback
       }
     } catch (error) {
       console.error("Failed to delete project:", error);

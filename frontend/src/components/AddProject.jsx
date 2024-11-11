@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const AddProject = () => {
+const AddProject = ({ onProjectAdded }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -21,6 +21,7 @@ const AddProject = () => {
         alert("Project created successfully");
         setName("");
         setDescription("");
+        onProjectAdded(); // Call the refresh callback
       }
     } catch (error) {
       console.error("Failed to create project:", error);

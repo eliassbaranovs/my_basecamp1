@@ -2,7 +2,12 @@
 import { useState } from "react";
 import axios from "axios";
 
-const EditProject = ({ projectId, initialName, initialDescription }) => {
+const EditProject = ({
+  projectId,
+  initialName,
+  initialDescription,
+  onProjectEdited,
+}) => {
   const [name, setName] = useState(initialName);
   const [description, setDescription] = useState(initialDescription);
 
@@ -20,6 +25,7 @@ const EditProject = ({ projectId, initialName, initialDescription }) => {
       );
       if (response.status === 200) {
         alert("Project updated successfully");
+        onProjectEdited(); // Call the refresh callback
       }
     } catch (error) {
       console.error("Failed to update project:", error);
