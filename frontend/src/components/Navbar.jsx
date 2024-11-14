@@ -5,6 +5,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -14,6 +15,7 @@ const Navbar = () => {
         });
         setIsAuthenticated(true);
         setIsAdmin(response.data.role === "admin");
+        setUsername(response.data.username);
       } catch (error) {
         setIsAuthenticated(false);
         setIsAdmin(false);
@@ -145,7 +147,11 @@ const Navbar = () => {
           </div>
 
           <div className="flex justify-center md:block">
-            {/* Additional content can go here */}
+            {isAuthenticated && (
+              <span className="text-gray-700 dark:text-gray-200">
+                Welcome, {username}
+              </span>
+            )}
           </div>
         </div>
       </div>
